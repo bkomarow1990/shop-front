@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route, Link, Routes } from "react-router-dom";
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import LoginPage from "./components/auth/login";
+import HomeLayout from "./containers";
+import RegisterPage from "./components/auth/register";
+import HomePage from "./components/auth/home";
+import { useTypedSelector } from "./hooks/useTypedSelector";
+import { Cart } from "./components/cart/Cart";
+import PrivateRoute from "./components/routes/PrivateRoute";
 
 function App() {
+  const { isAuth } = useTypedSelector((state) => state.auth);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/" element={<HomeLayout />}>
+        <Route
+          path="/cart"
+          element={
+            <PrivateRoute isAuth={isAuth}>
+              <Cart />
+            </PrivateRoute>
+          }
+        />
+        <Route index element={<HomePage />}></Route>
+        <Route path="login" element={<LoginPage />}></Route>
+        <Route path="register" element={<RegisterPage />}></Route>
+      </Route>
+    </Routes>
   );
 }
 

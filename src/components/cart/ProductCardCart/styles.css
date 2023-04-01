@@ -1,0 +1,11 @@
+.card{
+    width: 20em;
+    gap: 2px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+}   
+.card a{
+    margin-bottom: 0.2em;
+    margin-right: 0.2em;
+}
