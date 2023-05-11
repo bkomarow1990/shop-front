@@ -1,0 +1,17 @@
+$bg-color-light: #fff;
+$bg-color-dark: #333;
+$bg-color-dark-content: #141414;
+
+$bg-color: $bg-color-light; // Default to light theme
+
+// If the theme is dark, set the background color to the dark variable
+body.dark {
+    background-color: $bg-color-dark;
+}
+body a{
+    color: white;
+}
+
+.my-container{
+    background-color: $bg-color-dark-content;
+}

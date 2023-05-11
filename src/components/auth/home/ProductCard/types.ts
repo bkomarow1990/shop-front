@@ -1,6 +1,6 @@
 import { IProduct } from "../types";
 
-export interface IProductProps {
+export interface IProductCardProps {
     product: IProduct;
     children: React.ReactNode;
 }

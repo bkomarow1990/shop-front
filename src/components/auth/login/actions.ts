@@ -7,17 +7,18 @@ import jwtDecode from "jwt-decode";
 import instance from "../../../api/configurations";
 
 export interface ILoginResponse {
-  id: string
-  jwtToken: string
-  email: string
+  id: string;
+  jwtToken: string;
+  refreshToken: string;
+  email: string;
 }
 
 export const LoginUser = (data: ILogin) => async (dispatch: Dispatch<AuthAction>) => {
         try {
           console.log(process.env.REACT_APP_SERVER_URL);
           const response = await instance.post<ILoginResponse>("api/Account/login", data);
-          const { jwtToken } = await response.data;
-          setAuthUserByToken(jwtToken, dispatch);
+          const { jwtToken, refreshToken } = await response.data;
+          setAuthUserByToken(jwtToken, refreshToken, dispatch);
           return Promise.resolve();
 
         } catch (err: any) {
@@ -32,11 +33,12 @@ export const LoginUser = (data: ILogin) => async (dispatch: Dispatch<AuthAction>
         }
     }
 
-export const setAuthUserByToken = (token: string , dispatch: Dispatch<any>) => {
+export const setAuthUserByToken = (accessToken: string, refreshToken : string, dispatch: Dispatch<any>) => {
 
-  setAuthToken(token);
-  localStorage.token = token;
-  const dataUser : any = jwtDecode(token);
+  setAuthToken(accessToken);
+  localStorage.accessToken = accessToken;
+  localStorage.refreshToken = refreshToken;
+  const dataUser : any = jwtDecode(accessToken);
   console.log('data:' , dataUser);
   //const isMyTokenExpired = isExpired(token);
   //const dataUser = jwt.decode(token, { json: true });
@@ -59,6 +61,6 @@ export const LogoutUser = () => {
     return async (dispatch: Dispatch<AuthAction>) => {
           setAuthToken('');
             dispatch({ type: AuthActionTypes.LOGOUT_AUTH });
-            localStorage.removeItem("token")
+            localStorage.removeItem("accessToken")
     }
 }

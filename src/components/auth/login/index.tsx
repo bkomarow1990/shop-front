@@ -49,7 +49,7 @@ const LoginPage : React.FC = () => {
         <Form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="login" className="form-label">
-              login
+              Логін:
             </label>
             <input
               type="login"
@@ -71,7 +71,7 @@ const LoginPage : React.FC = () => {
 
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
-              Password
+              Пароль:
             </label>
             <input
               type="password"

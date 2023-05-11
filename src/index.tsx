@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+import './index.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
@@ -8,9 +8,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/configureStore';
 import { setAuthUserByToken } from './components/auth/login/actions';
 
-let token = localStorage.token;
-if(token){
-  setAuthUserByToken(token, store.dispatch);
+let accessToken = localStorage.accessToken;
+let refreshToken = localStorage.refreshToken;
+if(accessToken && refreshToken){
+  setAuthUserByToken(accessToken, refreshToken, store.dispatch);
 }
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
