@@ -15,7 +15,6 @@ export interface ILoginResponse {
 
 export const LoginUser = (data: ILogin) => async (dispatch: Dispatch<AuthAction>) => {
         try {
-          console.log(process.env.REACT_APP_SERVER_URL);
           const response = await instance.post<ILoginResponse>("api/Account/login", data);
           const { jwtToken, refreshToken } = await response.data;
           setAuthUserByToken(jwtToken, refreshToken, dispatch);
@@ -44,11 +43,13 @@ export const setAuthUserByToken = (accessToken: string, refreshToken : string, d
   //const dataUser = jwt.decode(token, { json: true });
   
   const user: IUser = {
+    id: dataUser!['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
     email: dataUser!.name,
     image: dataUser!.image,
-    roles: dataUser!.roles,
+    roles: dataUser!['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'],
   };
-  
+  console.log('user: ',user);
+
   dispatch({
     type: AuthActionTypes.LOGIN_AUTH_SUCCESS,
     payload: user,

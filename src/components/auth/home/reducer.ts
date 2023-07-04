@@ -1,39 +1,52 @@
 import { IProductState, ProductAction, ProductsActionTypes } from "./types";
 
 const initialState: IProductState = {
-    loading: false,
-    product: null,
-    products: {
-      items: [],
-      pageIndex: 1,
-      pageSize: 20,
-      hasNextPage: false,
-      hasPreviousPage: false,
-      totalCount: 0,
-      totalPages: 0
-    },
-    categories: []
+  loading: false,
+  product: null,
+  products: {
+    items: [],
+    pageIndex: 1,
+    pageSize: 20,
+    hasNextPage: false,
+    hasPreviousPage: false,
+    totalCount: 0,
+    totalPages: 0,
+  },
+  categories: [],
 };
 
-export const productReducer = (state=initialState, action: ProductAction) : IProductState => {
+export const productReducer = (
+  state = initialState,
+  action: ProductAction
+): IProductState => {
   switch (action.type) {
-
     case ProductsActionTypes.GET_PRODUCTS_SUCCESS:
       return {
         ...state,
+        loading: false,
         products: { ...action.payload },
       };
+    case ProductsActionTypes.GET_PRODUCTS:
+      return {
+        ...state,
+        loading: true,
+      };
+    case ProductsActionTypes.GET_PRODUCTS_ERROR:
+      return {
+        ...state,
+        loading: false,
+      };
     case ProductsActionTypes.GET_PRODUCT:
-      return{
+      return {
         ...state,
-        product: action.payload
-      }
+        product: action.payload,
+      };
     case ProductsActionTypes.GET_CATEGORIES:
-      return{
+      return {
         ...state,
-        categories: action.payload
-      }
+        categories: action.payload,
+      };
     default:
       return state;
   }
-}
+};

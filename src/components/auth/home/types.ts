@@ -5,6 +5,7 @@ import { Category } from "./Categories/types";
 export enum ProductsActionTypes{
     GET_PRODUCTS = "GET_PRODUCTS",
     GET_PRODUCTS_SUCCESS = "GET_PRODUCTS_SUCCESS",
+    GET_PRODUCTS_ERROR = "GET_PRODUCTS_ERROR",
     GET_PRODUCT = "GET_PRODUCT",
     GET_CATEGORIES = "GET_CATEGORIES"
 } 
@@ -62,6 +63,9 @@ export interface IGetProductsSuccessAction{
     type : ProductsActionTypes.GET_PRODUCTS_SUCCESS
     payload: IPaginatedProducts;
 }
+export interface IGetProductsErrorAction{
+    type : ProductsActionTypes.GET_PRODUCTS_ERROR
+}
 export interface IGetCategoriesSuccessAction{
     type: ProductsActionTypes.GET_CATEGORIES;
     payload: Category[];
@@ -70,6 +74,7 @@ export interface IGetCategoriesSuccessAction{
 export type ProductAction =
     | IGetProductsAction
     | IGetProductsSuccessAction
+    | IGetProductsErrorAction
     | IGetProductAction
     | IGetCategoriesSuccessAction
     ;

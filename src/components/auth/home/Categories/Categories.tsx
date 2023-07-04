@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useActions } from "../../../../hooks/useActions";
 import { useTypedSelector } from "../../../../hooks/useTypedSelector";
 import { Tree } from "antd";
@@ -13,10 +13,14 @@ export interface CategoriesProps{
 }
 export const Categories: React.FC<CategoriesProps> = ({onCategoryChange}) => {
   const { GetCategories } = useActions();
+  //const [treeData, setTreeData] = useState<DataNode[]>();
   const { categories } = useTypedSelector((store) => store.product);
   useEffect(() => {
     GetCategories();
-    
+    //treeData = createTree(categories)
+    //setTreeData(createTree(categories));
+    //console.log(categories);
+    //console.log(treeData);
     }, []);
     const handleSelect = (electedKeys: Key[], info: { event: "select"; selected: boolean; node: EventDataNode<DataNode>; selectedNodes: DataNode[]; nativeEvent: MouseEvent; }) => {
       // Check if the clicked node is a leaf node (i.e. has no children)
@@ -45,7 +49,7 @@ export const Categories: React.FC<CategoriesProps> = ({onCategoryChange}) => {
             children: createTree(category.subcategories),
           }));
       };
-    const treeData = createTree(categories);
+    let treeData = createTree(categories);
   // Функція для створення дерева елементів
 //   const createTree = (items: Category[]): Category[] => {
 

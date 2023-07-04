@@ -3,7 +3,7 @@ import { useActions } from "../../hooks/useActions";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { ProductCardCart } from "./ProductCardCart/ProductCardCart";
 import { Button, Modal } from "antd";
-import not_found from "../../assets/images/not_found.jpg";
+import not_found from "../../assets/images/not_found.gif";
 
 export const Cart: React.FC = () => {
   const { products } = useTypedSelector((store) => store.cart);
@@ -49,7 +49,7 @@ export const Cart: React.FC = () => {
       ) : (
 
         <div className="d-flex align-items-center flex-column">
-          <h3 className="text-center mt-3">NOT FOUND PRODUCTS IN CART</h3>
+          <h3 className="text-center mt-3">НА ЖАЛЬ, ТОВАРІВ В КОШИКУ НЕ ЗНАЙДЕНО</h3>
           <img src={not_found} alt="not found" />
         </div>
       )}

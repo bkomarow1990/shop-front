@@ -7,11 +7,15 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import { store } from './store/configureStore';
 import { setAuthUserByToken } from './components/auth/login/actions';
+import { changeThemeCustomActions } from './styles/redux/actions';
 
 let accessToken = localStorage.accessToken;
 let refreshToken = localStorage.refreshToken;
 if(accessToken && refreshToken){
   setAuthUserByToken(accessToken, refreshToken, store.dispatch);
+}
+if(localStorage.getItem('theme') === 'dark'){
+  changeThemeCustomActions(true);
 }
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

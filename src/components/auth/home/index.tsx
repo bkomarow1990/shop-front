@@ -1,4 +1,4 @@
-import { Button, Divider, Pagination, Select } from 'antd';
+import { Alert, Button, Divider, Pagination, Select, Space, Spin, Typography } from 'antd';
 import Search from 'antd/es/input/Search';
 import { Content } from 'antd/es/layout/layout';
 import React, { useEffect, useState } from 'react';
@@ -12,11 +12,11 @@ import { RangeSlider, RangeSliderProps } from '../../common/RangeSlider/RangeSli
 import { ProductCard } from './ProductCard/ProductCard';
 import './styles.scss';
 import { Categories } from './Categories/Categories';
-
+const { Title } = Typography;
 export default function HomePage() {
   const { products, loading } = useTypedSelector((store) => store.product);
   const { GetProducts } = useActions();
-  const [priceRange, setPriceRange] = useState<RangeSliderProps['range']>([1, 10000000]); // Define the initial range values
+  const [priceRange, setPriceRange] = useState<RangeSliderProps['range']>([1, 30000000]); // Define the initial range values
 
   const [searchParams, setSearchParams] = useSearchParams();
   //const [currentPage, setCurrentPage] = useState(1);
@@ -41,9 +41,6 @@ export default function HomePage() {
     }
     await GetProducts({pageIndex : pageIndex, pageSize: 3, search: search, priceFrom : priceFrom, priceTo : priceTo, sortBy: sortByParam, isSortAscending: isSortAscending, category: category});
   }
-  // const handlePageClick = async (selectedItem: { selected: number }) => {
-  //   await fetchData(selectedItem.selected + 1);
-  // };
   const handlePagination = async (page: number) => {
     //console.log('page', page.toString());
     // create a copy of the previous searchParams object
@@ -83,15 +80,7 @@ export default function HomePage() {
   }
   useEffect(() => {
     handleEffect();
-    //searchParams.set('page', pageIndex.toString());
-    //fetchData(products.pageIndex);
   }, [searchParams, setSearchParams]);
-  // useEffect(() => {
-  //   handleEffect();
-  // },[]);
-  // useEffect(() => {
-
-  // },[]);
   const handleSort = (value: string) =>{
     const updatedSearchParams = new URLSearchParams(searchParams);
     updatedSearchParams.set('sortBy', value);
@@ -103,70 +92,84 @@ export default function HomePage() {
     setSearchParams(updatedSearchParams);
   }
   return (
-    
-    <div className='d-flex flex-column flex-md-row justify-content-center'>
-      <Content className='col-md-3 gap-3 mb-5 mb-md-0 d-flex flex-column ps-5 pe-5'>
-        <div className='d-flex gap-2 flex-column'>
-          <h5 className='m-0'>
-            Ціна:
-          </h5>
+    <>
+    {loading && (
+      <EclipseWidget/>)}
+    <div className="d-flex flex-column flex-md-row justify-content-center">
+      
+      <Content className="col-md-3 gap-3 mb-5 mb-md-0 d-flex flex-column ps-5 pe-5">
+        <div className="d-flex gap-2 flex-column">
+          <Title level={5} className="m-0">Ціна:</Title>
           <div>
-            <RangeSlider min={1} max={10000000} range={priceRange} onRangeChange={handlePriceRangeChanged}/>
+            <RangeSlider
+              min={1}
+              max={30000000}
+              range={priceRange}
+              onRangeChange={handlePriceRangeChanged}
+            />
           </div>
           <Button onClick={handleApplyPriceRange}>Застосувати</Button>
         </div>
         <div>
-
-          <div className='mb-2'>
-            <h5>
-              Сортувати за:
-            </h5>
-                    <Select className='w-100'
-                  defaultValue="disabled"
-                  onChange={handleSort}
-                  options={[
-                    { value: 'price', label: 'Спочатку дешевші' },
-                    { value: 'priceDesc', label: 'Спочатку дорожчі' },
-                    { value: 'name', label: 'За іменем' },
-                    { value: 'disabled', label: 'Не визначено', disabled: true },
-                  ]}
-                />
+          <div className="mb-2">
+            <Title level={5}>Сортувати за:</Title>
+            <Select
+              className="w-100"
+              defaultValue="disabled"
+              onChange={handleSort}
+              options={[
+                { value: "price", label: "Спочатку дешевші" },
+                { value: "priceDesc", label: "Спочатку дорожчі" },
+                { value: "name", label: "За іменем" },
+                { value: "disabled", label: "Не визначено", disabled: true },
+              ]}
+            />
           </div>
           {/* <Button className='w-100' onClick={handleSort}> Застосувати </Button> */}
         </div>
         <div>
           <Categories onCategoryChange={onCategoryChange}></Categories>
-          <Button onClick={() => {
-             const updatedSearchParams = new URLSearchParams(searchParams);
-             updatedSearchParams.delete('category');
-             setSearchParams(updatedSearchParams);
-          }} className='w-100'>Прибрати категорію</Button>
+          <Button
+            onClick={() => {
+              const updatedSearchParams = new URLSearchParams(searchParams);
+              updatedSearchParams.delete("category");
+              setSearchParams(updatedSearchParams);
+            }}
+            className="w-100"
+          >
+            Прибрати категорію
+          </Button>
         </div>
       </Content>
-      <div className='mt-2 text-center col-md-9'>
-        <Search placeholder="Search by name or description" defaultValue={searchParams.get('search') as string} onSearch={onSearch} enterButton className='mb-5 w-75'/>
-        {loading && <EclipseWidget/>}
-      { products.items.length > 0 ? (
-        <div className='card-wrapper'>
-      {
-        products.items.map(pr => (
-            <ProductCard key={pr.id} product={pr}>
-            </ProductCard>
-        ))
-      
-      }
-      
-      </div>) : (
-        <h3 className='text-center'>
-          NOT FOUND
-        </h3>
-      )
-      }
-      <Divider>
-      {/* <Pagination current={searchParams.get('page') as number} onChange={handlePagination} total={products.totalCount} pageSize={3} className="mt-3 text-center"/> */}
-      <Pagination current={products.pageIndex} onChange={handlePagination} total={products.totalCount} pageSize={3} className="mt-3 text-center"/>
-      </Divider>
-      {/* <ReactPaginate
+      <div className="mt-2 text-center col-md-9">
+        <Search
+          placeholder="Search by name or description"
+          defaultValue={searchParams.get("search") as string}
+          onSearch={onSearch}
+          enterButton
+          className="mb-5 w-75"
+        />
+        {/* {loading && <EclipseWidget/>} */}
+        {products.items.length > 0 ? (
+          <div className="card-wrapper">
+            {products.items.map((pr) => (
+              <ProductCard key={pr.id} product={pr}> </ProductCard>
+            ))}
+          </div>
+        ) : (
+          <Title level={3} className="text-center">ТОВАРІВ НЕМАЄ</Title>
+        )}
+        <Divider>
+          {/* <Pagination current={searchParams.get('page') as number} onChange={handlePagination} total={products.totalCount} pageSize={3} className="mt-3 text-center"/> */}
+          <Pagination
+            current={products.pageIndex}
+            onChange={handlePagination}
+            total={products.totalCount}
+            pageSize={3}
+            className="mt-3 text-center"
+          />
+        </Divider>
+        {/* <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
           onPageChange={handlePageClick}
@@ -185,8 +188,8 @@ export default function HomePage() {
           disabledClassName="disabled"
           // renderOnZeroPageCount={null}
         /> */}
-      
       </div>
     </div>
-  )
+    </>
+  );
 }

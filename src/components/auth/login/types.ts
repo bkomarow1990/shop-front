@@ -9,6 +9,7 @@ export enum AuthActionTypes {
   LOGOUT_AUTH = "LOGOUT_AUTH",
 }
 export interface IUser {
+  id: string,
   email: string,
   image: string,
   roles: string

@@ -9,6 +9,7 @@ import axios from 'axios';
 import { useActions } from '../../../hooks/useActions';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Typography } from 'antd';
 
 const LoginPage : React.FC = () => {
   const initialValues: ILogin = {
@@ -43,13 +44,16 @@ const LoginPage : React.FC = () => {
   });
   const { errors, touched, handleSubmit, handleChange, setFieldValue } = formik;
   return (
-    <div className="row">
+    <div className="row p-5">
     <div className="offset-md-3 col-md-6">
       <FormikProvider value={formik}>
         <Form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="login" className="form-label">
+              <Typography>
+                
               Логін:
+              </Typography>
             </label>
             <input
               type="login"
@@ -71,7 +75,9 @@ const LoginPage : React.FC = () => {
 
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
+            <Typography>
               Пароль:
+            </Typography>
             </label>
             <input
               type="password"

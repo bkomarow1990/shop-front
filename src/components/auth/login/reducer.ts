@@ -1,6 +1,7 @@
 import {AuthState, AuthAction, AuthActionTypes} from './types';
 const initialState: AuthState = {
     user: {
+      id: "",
       email: "",
       image: "",
       roles: ""
@@ -19,7 +20,7 @@ export const authReducer = (state=initialState, action: AuthAction) : AuthState 
       };
 
     case AuthActionTypes.LOGOUT_AUTH:
-      return {isAuth: false, user:{email: '', image:'', roles: ""} };
+      return {isAuth: false, user:{id: '',email: '', image:'', roles: ""} };
 
     default:
       return state;

@@ -7,6 +7,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import instance from "../../../api/configurations";
+import { Typography } from "antd";
 
 const RegisterPage = (props : any) => {
   const [isBot, setIsbot] = useState<boolean>(false);
@@ -33,7 +34,7 @@ const RegisterPage = (props : any) => {
           title: "Nice!",
           text: "Happy registration!",
         });
-        navigate('/');
+        navigate('/login');
       })
       .catch((err) => {
         Swal.fire({
@@ -64,7 +65,9 @@ const RegisterPage = (props : any) => {
           <Form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="email" className="form-label">
+              <Typography>
                 Email*
+                </Typography>
               </label>
               <input
                 type="email"
@@ -84,7 +87,9 @@ const RegisterPage = (props : any) => {
 
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
+              <Typography>
                 Password*
+                </Typography>
               </label>
               <input
                 type="password"
@@ -104,7 +109,9 @@ const RegisterPage = (props : any) => {
 
             <div className="mb-3">
               <label htmlFor="confirmPassword" className="form-label">
+              <Typography>
                 Confirm Password*
+                </Typography>
               </label>
               <input
                 type="password"
@@ -130,7 +137,9 @@ const RegisterPage = (props : any) => {
 
             <div className="mb-3">
               <label htmlFor="firstName" className="form-label">
+              <Typography>
                 First Name
+                </Typography>
               </label>
               <input
                 type="text"
@@ -150,7 +159,9 @@ const RegisterPage = (props : any) => {
 
             <div className="mb-3">
               <label htmlFor="lastName" className="form-label">
+              <Typography>
                 Last Name
+                </Typography>
               </label>
               <input
                 type="text"
@@ -170,7 +181,9 @@ const RegisterPage = (props : any) => {
 
             <div className="mb-3">
               <label htmlFor="phone" className="form-label">
+              <Typography>
                 Phone
+                </Typography>
               </label>
               <input
                 type="text"

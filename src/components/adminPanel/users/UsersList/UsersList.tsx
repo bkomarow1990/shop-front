@@ -44,10 +44,12 @@ export  const UsersList : React.FC = () => {
           render: (_ : any, record : IUserAdmin) => (
             <div className="d-flex flex-column">
               <p>
+                <span>Дата реєстрації: </span>
               {moment(record.registrationDay).format('YYYY/DD/MM')}
 
               </p>
               <p>
+                <span>Id: </span>
               {record.id}
 
               </p>
@@ -66,6 +68,19 @@ export  const UsersList : React.FC = () => {
               </p>
               <p>{record.name}</p>
               <p>{record.phone}</p>
+            </div>
+          )
+        },
+        {
+          title: 'Roles',
+          dataIndex: 'roles',
+          key: 'roles',
+          render: (_ : any, record : any) => (
+            <div className="d-flex flex-column">
+              {record.roles.map((r : any) => (
+                  <p>{r}</p>
+              ))}
+              
             </div>
           )
         },

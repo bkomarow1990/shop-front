@@ -5,12 +5,13 @@ import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { AiFillShop, AiOutlineShoppingCart } from "react-icons/ai";
 import { Button, Card, Col, Menu, Row } from "antd";
 import { FiSettings } from "react-icons/fi";
-import { GrUserAdmin } from "react-icons/gr";
+import { RiAdminFill } from "react-icons/ri";
+import { CiDeliveryTruck } from "react-icons/ci";
 import { useActions } from "../../hooks/useActions";
 import { Content, Header } from "antd/es/layout/layout";
 import Title from "antd/es/typography/Title";
 const Navbar = () => {
-  const { isAuth, user } = useTypedSelector((store) => store.auth);
+  const { isAuth, user : {roles} } = useTypedSelector((store) => store.auth);
   const { products } = useTypedSelector((store) => store.cart);
   const navigate = useNavigate();
   return (
@@ -20,10 +21,8 @@ const Navbar = () => {
           <Row>
             <Col xl={12} lg={12} md={12} sm={20} xs={20}>
               <Link to="/" className="text-decoration-none">
-                <Title id="title-button" level={4}>
-                  <p className="text-white">
-                    <AiFillShop color="white"></AiFillShop> Cyrill Shop
-                  </p>
+                <Title id="title-button" level={4}> 
+                    <p className="text-white"><AiFillShop size={25}></AiFillShop> CYRILL SHOP</p>
                 </Title>
               </Link>
             </Col>
@@ -34,17 +33,22 @@ const Navbar = () => {
                 theme="dark"
                 // overflowedIndicator={<MenuOutlined />}
               >
-                <Menu.Item key="profile">
-                  <GrUserAdmin size={20}></GrUserAdmin>
-                  Admin Panel
-                </Menu.Item>
-
+                {roles && roles.includes("Administrator") && (
+                  <Menu.Item key="profile" onClick={() => navigate('/adminPanel/users')}>
+                    <div className="d-flex gap-2 justify-content-center align-items-center cursor-pointer">
+                      <RiAdminFill size={20}></RiAdminFill>
+                      Адмін панель
+                    </div>
+                  </Menu.Item>
+                )}
                 <Menu.Item
                   key="products"
-                  className="d-flex gap-2 justify-content-center align-items-center cursor-pointer "
                   onClick={() => navigate("/")}
                 >
-                  <p className="p-0 m-0">Products</p>
+                  <div className="d-flex gap-2 justify-content-center align-items-center cursor-pointer">
+                    <CiDeliveryTruck size={20}/>
+                    <p className="p-0 m-0">Товари</p>
+                  </div>
                 </Menu.Item>
 
                 {isAuth ? (

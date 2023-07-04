@@ -7,6 +7,9 @@ import { Category } from "./Categories/types";
 
 export const GetProducts = (data: IGetProductsRequest) => async (dispatch: Dispatch<ProductAction>) => {
     try {
+      dispatch({
+        type: ProductsActionTypes.GET_PRODUCTS
+      });
       const response = await instance.get<IPaginatedProducts>("api/Product/get-products", {
         params: {
           pageIndex: data.pageIndex,
@@ -26,6 +29,9 @@ export const GetProducts = (data: IGetProductsRequest) => async (dispatch: Dispa
       return Promise.resolve();
 
     } catch (err: any) {
+      dispatch({
+        type: ProductsActionTypes.GET_PRODUCTS_ERROR
+      });
         if (axios.isAxiosError(err)) {
           const serverError = err;
           if (serverError && serverError.response) {
@@ -71,6 +77,8 @@ export const GetCategories = () => async (dispatch: Dispatch<ProductAction>) => 
   try {
     const response = await instance.get<Category[]>("api/Category/get-all-categories-with-subcategories");
     const responseData = await response.data;
+    //console.log(responseData);
+    //alert(responseData);
     dispatch({
       type: ProductsActionTypes.GET_CATEGORIES,
       payload: responseData
